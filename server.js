@@ -22,7 +22,6 @@ app.use(bodyParser.json());
 // Importando e configurando as rotas para produtos
 const productRoutes = require('./routes/products');
 app.use('/api/products', productRoutes);
-app.get("/", () => console.log("teste"))
 
 // Rodando o servidor
 const PORT = process.env.PORT || 5001;
