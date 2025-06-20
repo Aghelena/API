@@ -1,0 +1,9 @@
+{
+    "nome": "Produto Teste",
+    "descricao": "Descrição do produto",
+    "cor": "Vermelho",
+    "peso": 1.0,
+    "tipo": "Eletrônico",
+    "preco": 99.99
+}
+  
