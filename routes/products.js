@@ -1,5 +1,5 @@
 const express = require('express');
-const Product = require('../models/Product');
+const Product = require('../models/Product'); // Model de Produto
 const router = express.Router();
 
 /**
@@ -20,8 +20,8 @@ const router = express.Router();
  */
 router.get('/', async (req, res) => {
   try {
-    const products = await Product.find();
-    res.json(products);
+    const products = await Product.find(); // Encontrar todos os produtos no MongoDB
+    res.json(products);  // Retornar os produtos no formato JSON
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -52,13 +52,15 @@ router.get('/', async (req, res) => {
  */
 router.get('/:param', async (req, res) => {
   try {
-    const param = req.params.param;
+    const param = req.params.param;  // ID ou Nome do produto
     const product = await Product.findOne({
-      $or: [{ _id: param }, { nome: param }]
+      $or: [{ _id: param }, { nome: param }]  // Buscar por ID ou Nome
     });
+
     if (!product) {
       return res.status(404).json({ message: 'Produto não encontrado' });
     }
+
     res.json(product);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -86,11 +88,12 @@ router.get('/:param', async (req, res) => {
  *               $ref: '#/components/schemas/Product'
  */
 router.post('/', async (req, res) => {
-  const { nome, descricao, cor, peso, tipo, preco } = req.body;
+  const { nome, descricao, cor, peso, tipo, preco } = req.body;  // Dados do produto
   const newProduct = new Product({ nome, descricao, cor, peso, tipo, preco });
+
   try {
-    const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct);
+    const savedProduct = await newProduct.save();  // Salvar no banco de dados
+    res.status(201).json(savedProduct);  // Retornar o produto criado
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -128,6 +131,7 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Produto não encontrado' });
     }
 
+    // Atualizando os campos do produto
     product.nome = req.body.nome || product.nome;
     product.descricao = req.body.descricao || product.descricao;
     product.cor = req.body.cor || product.cor;

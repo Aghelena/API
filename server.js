@@ -1,50 +1,51 @@
 // Importando dependências
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const swaggerUi = require('swagger-ui-express');  // Importando o Swagger UI
-const swaggerJsdoc = require('swagger-jsdoc');    // Importando o Swagger JSDoc
+require('dotenv').config();  // Carregar variáveis de ambiente do arquivo .env
+const express = require('express');  // Framework Express
+const mongoose = require('mongoose');  // Conexão com MongoDB
+const bodyParser = require('body-parser');  // Middleware para análise de corpo
+const cors = require('cors');  // Middleware para CORS
+const swaggerUi = require('swagger-ui-express');  // Swagger UI para interface
+const swaggerJsdoc = require('swagger-jsdoc');    // Swagger JSDoc para documentação
 
-// Criando o app
+// Criando o app Express
 const app = express();
 
-// Usando o CORS para permitir todas as origens
-app.use(cors());
+// Usando middleware
+app.use(cors());  // Permitir solicitações de diferentes origens
+app.use(bodyParser.json());  // Analisar o corpo das requisições como JSON
 
-// Conectar ao MongoDB
+// Conectando ao MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Conectado ao MongoDB'))
   .catch(err => console.log('Erro de conexão com o MongoDB:', err));
 
-// Middleware para analisar corpo das requisições
-app.use(bodyParser.json());
-
-// Configuração do Swagger
+// Definindo as opções para o Swagger JSDoc
 const options = {
   definition: {
-    openapi: "3.0.0",  // Versão do OpenAPI
+    openapi: "3.0.0",  // Versão da especificação OpenAPI
     info: {
       title: "API de Produtos - Loja de Departamentos",  // Título da API
       version: "1.0.0",  // Versão da API
       description: "API para gerenciar produtos em uma loja de departamentos",  // Descrição da API
     },
   },
-  // Caminho para os arquivos que contêm as anotações dos endpoints
-  apis: ["./routes/products.js"],
+  apis: ["./routes/products.js"],  // Caminho dos arquivos de rotas que contêm as anotações Swagger
 };
 
-// Inicializando o Swagger
+// Gerando a especificação Swagger a partir das opções
 const swaggerSpec = swaggerJsdoc(options);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));  // Definindo a rota /api-docs para visualizar a documentação
 
-// Importando e configurando as rotas para produtos
+// Rota para acessar a documentação Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Importando e configurando as rotas de produtos
 const productRoutes = require('./routes/products');
-app.use('/api/products', productRoutes);
+app.use('/api/products', productRoutes);  // Prefixo /api/products para as rotas de produtos
 
-// Rodando o servidor
-const PORT = process.env.PORT || 5001;
+// Definindo a porta do servidor
+const PORT = process.env.PORT || 5000;
+
+// Iniciando o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
