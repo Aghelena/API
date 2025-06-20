@@ -2,6 +2,9 @@
 
 Esta é uma API para gerenciar produtos em uma loja de departamentos, permitindo realizar operações de **CRUD** (Criar, Ler, Atualizar, Deletar) em produtos. A API está construída com **Node.js**, **Express** e **MongoDB**.
 
+## Documentação Swagger 
+https://produtos-api-gwde.onrender.com/api-docs/
+
 ## Funcionalidades
 
 - **Listar todos os produtos**
