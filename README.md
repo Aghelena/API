@@ -183,6 +183,5 @@ json
   "message": "Produto removido com sucesso"
 }
 ```
-![Descrição da Imagem](caminho/para/sua/imagem.png)
-![Descrição da Imagem](caminho/para/sua/imagem.png)
+![Descrição da Imagem](swagger.jpeg)
 
